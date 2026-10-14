@@ -1,0 +1,12 @@
+local-keys.json
+**/local-keys.json
+dist/
+*.zip
+.playwright-cli/
+__pycache__/
+*.py[cod]
+_user_meta.json
+*.log
+.env
+.env.*
+**/scripts/build_*.py

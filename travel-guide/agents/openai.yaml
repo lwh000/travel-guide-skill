@@ -1,0 +1,22 @@
+interface:
+  display_name: "旅游攻略"
+  short_description: "可核对来源的行程攻略，含真酒店、餐厅、票价与路线。"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#0F766E"
+  default_prompt: |
+    帮我做一份能照着走的旅游攻略。
+    目的地：
+    出发地：
+    日期 / 天数：
+    人数（成人/小孩/老人）：
+    交通：自驾 / 高铁 / 飞机 / 火车 / 混合
+    预算（人均或总预算，或经济/舒适/豪华）：
+    节奏：轻松 / 适中 / 赶
+    兴趣 / 必须去 / 不要去：
+    已订酒店或航班：
+    饮食或行动限制：
+    要不要 HTML 网页攻略：
+    其他：
+policy:
+  allow_implicit_invocation: true
