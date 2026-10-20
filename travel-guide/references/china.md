@@ -1,3 +1,8 @@
+---
+name: travel-guide-china
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 中国及港澳台
 
 目的地是中国大陆、香港、澳门或台湾时阅读。这些规则会改变预订、地图、支付和假期判断。

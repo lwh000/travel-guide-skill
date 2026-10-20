@@ -1,3 +1,8 @@
+---
+name: travel-guide-html-guide
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # HTML 攻略
 
 用户要可预览、可点击、HTML、网页攻略时使用。先读 [maps.md](maps.md)、[live-data.md](live-data.md) 和 [media.md](media.md)。

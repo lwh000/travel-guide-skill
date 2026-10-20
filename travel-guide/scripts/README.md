@@ -1,3 +1,8 @@
+---
+name: travel-guide-scripts-readme
+description: travel-guide 脚本内部说明，不单独作为技能导入。
+---
+
 # scripts
 
 改完 skill 后在 skill 根目录跑：

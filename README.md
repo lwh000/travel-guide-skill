@@ -45,6 +45,12 @@
 
 普通版不包含 API 密钥。生成一般攻略、来源链接和 SVG 路线图不要求先配置密钥。
 
+### 手机端导入
+
+手机端技能中心对包内 Markdown 的扫描比桌面端严格。v2.11.3 起，发布包中所有 Markdown 都带合法的 `name` / `description` frontmatter，且 ZIP 的第一个成员固定为 `SKILL.md`，可直接导入。
+
+如果旧包仍报 `文件缺少合法的 frontmatter (name/description)`，不要改正文，换成 v2.11.3 或更新版本重新导入。只需要技能主文件时，可把仓库中的 `travel-guide/SKILL.md` 单独打包为只含一个文件的 ZIP；完整包则保留 `travel-guide/` 目录结构。
+
 ## 可选：天气和私人地图配置
 
 复制 [`local-keys.example.json`](travel-guide/local-keys.example.json) 到包外的私人位置，填入自己申请的凭据，再设置 `TRAVEL_GUIDE_KEYS_FILE` 指向该 JSON 文件的绝对路径。未设置该变量时，脚本会尝试读取 Skill 根目录的 `local-keys.json`；请勿把这个文件提交到公开仓库。

@@ -1,3 +1,8 @@
+---
+name: travel-guide-planning
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 行程规划
 
 完整或精简攻略在检索之前读。冲突时，本节覆盖「每天必须 2–4 个锚点」这类数量口诀。

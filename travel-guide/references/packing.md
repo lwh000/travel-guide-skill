@@ -1,3 +1,8 @@
+---
+name: travel-guide-packing
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 打包
 
 只写这次气候和交通真正需要的。十行通常够，二十行封顶。

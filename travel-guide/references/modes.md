@@ -1,3 +1,8 @@
+---
+name: travel-guide-modes
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 行程类型
 
 只读与这次行程匹配的小节。负荷、车程、抵达离开以 [planning.md](planning.md) 为准；本节只补这类行程特有的约束。

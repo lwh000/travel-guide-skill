@@ -68,13 +68,15 @@ def find_root() -> pathlib.Path:
 
 
 def iter_files(root: pathlib.Path):
-    paths = [pathlib.Path(name) for name in PUBLISH_ROOT_FILES]
+    # 手机端导入器可能只取压缩包里的第一个 Markdown；SKILL.md 必须排第一。
+    root_names = sorted(PUBLISH_ROOT_FILES - {"SKILL.md"})
+    paths = [pathlib.Path("SKILL.md")] + [pathlib.Path(name) for name in root_names]
     paths.extend(
         pathlib.Path(directory, name)
         for directory, names in PUBLISH_DIR_FILES.items()
         for name in names
     )
-    for rel in sorted(paths, key=lambda p: p.as_posix()):
+    for rel in sorted(paths, key=lambda p: (p.as_posix() != "SKILL.md", p.as_posix())):
         p = root / rel
         if (not p.resolve().is_relative_to(root.resolve())
                 or any((root / pathlib.Path(*rel.parts[:i])).is_symlink()
@@ -224,6 +226,9 @@ def make_zip(root: pathlib.Path, version: str, out_dir: pathlib.Path,
             else:
                 print("  OK    CRC 校验通过")
             names = [info.filename for info in z.infolist()]
+            if not names or names[0] != "travel-guide/SKILL.md":
+                print("  FAIL  压缩包第一个成员必须是 SKILL.md（手机端可能只解析首个 Markdown）")
+                problems += 1
             if len(names) != len(expected) or set(names) != expected:
                 print("  FAIL  压缩包成员与发布白名单不一致")
                 problems += 1

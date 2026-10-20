@@ -1,3 +1,8 @@
+---
+name: travel-guide-maps
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 路线图与停靠点
 
 按这次需求只读对应小节。对话里的自驾不要读「两种画法」和「#trip-geo」。

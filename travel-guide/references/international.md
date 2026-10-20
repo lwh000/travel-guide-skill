@@ -1,3 +1,8 @@
+---
+name: travel-guide-international
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 出境
 
 行程跨边境，或用户问签证、eSIM、时差、插头、保险时阅读。

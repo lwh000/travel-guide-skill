@@ -1,3 +1,8 @@
+---
+name: travel-guide-research-playbook
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 检索手册
 
 写酒店、餐厅、景点、价格之前先读。用户只要没有具体推荐的结构大纲时可跳过；大纲里若出现实际目的地、交通或地点建议，仍须核查相关事实。

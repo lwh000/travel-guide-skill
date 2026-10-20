@@ -1,3 +1,8 @@
+---
+name: travel-guide-media
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 图片与媒体
 
 HTML 攻略才读。对话里的 Markdown 不要嵌大图。

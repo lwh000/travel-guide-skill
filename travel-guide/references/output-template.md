@@ -1,3 +1,8 @@
+---
+name: travel-guide-output-template
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 输出模板
 
 先定档，再写。不要为了「节不是空的」而补齐精简档或大纲不需要的章节。标题用用户的语言。

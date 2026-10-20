@@ -1,10 +1,21 @@
+---
+name: travel-guide-changelog
+description: travel-guide 变更记录，不单独作为技能导入。
+---
+
 # 变更记录
 
-> **2.11.2（2026-10-14）** —— 当前工作版。
+> **2.11.3（2026-10-20）** —— 当前工作版。
 > 版本以 `SKILL.md` frontmatter 为准，修订时按语义版本升级并在下面新增条目。
 > 改完跑 `python scripts/release.py` 复验并重算完整性清单（`--zip` 可顺带打包）。
 > `local-keys.json` 不进普通包；用户明确要求时可用 `--private` 生成含密钥的自用包。
 > 普通文件的完整性校验见根目录 `MANIFEST.sha256`；私用包的密钥成员由发布脚本单独核验。
+
+## 2.11.3 — 2026-10-20
+
+- 修复手机端技能导入报 `文件缺少合法的 frontmatter(name/description)`：发布 ZIP 现在把根目录 `SKILL.md` 排在第一个成员，避免导入器先解析没有 frontmatter 的 `CHANGELOG.md`。
+- `description` 改为不带引号的 YAML 纯量，兼容只做简单行解析的导入器。
+- 发布包内所有 Markdown（含 `CHANGELOG.md`、`references/*.md`、`scripts/README.md`）都补上合法的 `name` / `description` frontmatter，防止手机端递归解析时把参考文档误当技能文件。
 
 ## 2.11.2 — 2026-10-14
 

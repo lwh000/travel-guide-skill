@@ -1,3 +1,8 @@
+---
+name: travel-guide-live-data
+description: travel-guide 内部参考文档，不单独作为技能导入。
+---
+
 # 天气与城际票价
 
 只有行程涉及天气、城际票价或境内自驾地图时读。配置可由 `TRAVEL_GUIDE_KEYS_FILE` 指向包外文件；未设置时读取根目录 `local-keys.json`，格式见 `local-keys.example.json`。私用安装包可在根目录自带此配置。聊天里不要打印 key，HTML 里不要出现和风 key。
