@@ -89,6 +89,30 @@ class LiveDataTests(unittest.TestCase):
             "2026-03-15",
         )
 
+    def test_qweather_current_schema_condition_and_scalar_uv(self):
+        block = {"days": [{
+            "forecastStartTime": "2026-10-13T16:00:00Z",
+            "temperatureMin": {"value": 12, "unit": "°C"},
+            "temperatureMax": {"value": 23, "unit": "°C"},
+            "daytime": {
+                "condition": {"text": "多云"},
+                "humidity": 0.5,
+                "wind": {"direction": {"compass": "NE"}, "speed": {"value": 3, "unit": "m/s"}},
+                "precipitation": {"amount": {"value": 0.8, "unit": "mm"},
+                                  "probability": 0.3, "type": "rain"},
+            },
+            "nighttime": {"condition": {"text": "晴"}},
+            "uvIndexMax": 5,
+        }]}
+        rows = live_data.daily_from_qweather(block, {"tz": "Asia/Shanghai", "utcOffset": "+08:00"})
+        self.assertEqual((rows[0]["textDay"], rows[0]["textNight"]), ("多云", "晴"))
+        self.assertEqual(rows[0]["uvIndex"], 5)
+        self.assertEqual(rows[0]["precip"], 0.8)
+        self.assertEqual(rows[0]["precipProbability"], 30)
+        card = live_data.wx_card(rows[0])
+        self.assertIn("多云", card)
+        self.assertNotIn("<span></span>", card)
+
     def test_qweather_coordinates_validate_bounds_and_order(self):
         self.assertEqual(live_data.qw_coordinates({"lat": "30.28000", "lon": "120.15000"}), ("30.28", "120.15"))
         self.assertIsNone(live_data.qw_coordinates({"lat": "NaN", "lon": "120.15"}))

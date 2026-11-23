@@ -4,9 +4,9 @@
 不依赖 pyyaml（系统没装也能跑）。skill-creator 自带的 quick_validate.py 需要 pyyaml，
 本机 python 没有该模块时用这个代替：
 
-    python scripts/check_skill.py <skill 目录>
+    python scripts/check_skill.py [skill 目录]
 
-退出码 0 = 通过。
+不传目录时默认检查脚本上级的 skill 根目录。退出码 0 = 通过。
 """
 import pathlib, re, sys
 
@@ -15,7 +15,8 @@ try:
 except Exception:
     pass
 
-root = pathlib.Path(sys.argv[1]).resolve()
+default_root = pathlib.Path(__file__).resolve().parent.parent
+root = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else default_root).resolve()
 text = (root / "SKILL.md").read_text(encoding="utf-8")
 problems = []
 

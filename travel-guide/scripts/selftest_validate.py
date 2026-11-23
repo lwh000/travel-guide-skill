@@ -266,6 +266,10 @@ def build() -> list[tuple]:
                    [{"id": "d1", "label": "D1", "lineMode": "none", "markers": ["h1"]},
                     {"id": "d1", "label": "D1 再来一次", "lineMode": "none", "markers": ["h1"]}])
     add("32 重复 view ID", make(dup_view), 1)
+    add("重复 section id", make(g_city, extra=(
+        '<section id="days"><h2>逐日</h2></section>'
+        '<section id="days"><h2>逐日再来一份</h2></section>'
+    )), 1, fail="重复的 section id")
 
     no_coord = geo("city_trip", "amap", "amap", "gcj02", CITY_VIEWS,
                    points=[{"id": "start", "name": "上海", "lon": 121.47, "lat": 31.23, "kind": "start"},

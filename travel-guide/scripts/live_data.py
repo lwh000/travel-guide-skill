@@ -34,7 +34,7 @@ SKILL_ROOT = Path(__file__).resolve().parent.parent
 KEYS_PATH = SKILL_ROOT / "local-keys.json"
 CST = timezone(timedelta(hours=8))
 TIMEOUT = 8
-UA = "travel-guide-live-data/2.9.1"
+UA = "travel-guide-live-data/2.11.4"
 BROWSER_UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -275,11 +275,11 @@ def temp_range(tmin: Any, tmax: Any) -> str:
 
 def wx_card(day: dict) -> str:
     d = day.get("date") or ""
-    text = day.get("textDay") or day.get("text") or ""
+    text = day.get("textDay") or day.get("text") or day.get("textNight") or ""
     rng = temp_range(day.get("tempMin"), day.get("tempMax")) or "—"
     return (
         f'<div class="wx-card"><span class="wx-date">{esc(d)}</span>'
-        f"<b>{esc(rng)}</b><span>{esc(text)}</span></div>"
+        f"<b>{esc(rng)}</b>" + (f"<span>{esc(text)}</span>" if text else "") + "</div>"
     )
 
 
@@ -297,7 +297,7 @@ def pills_from(daily: list[dict]) -> dict:
         d = day.get("date")
         if not d:
             continue
-        text = day.get("textDay") or ""
+        text = day.get("textDay") or day.get("textNight") or ""
         rng = temp_range(day.get("tempMin"), day.get("tempMax"))
         out[d] = " · ".join(x for x in (rng, text) if x)
     return out
@@ -371,6 +371,15 @@ def qw_attributions(*blocks: dict) -> list[str]:
     return out
 
 
+def _qw_condition(part: dict) -> dict:
+    """QWeather v1 uses `condition`; older payloads used `weatherCondition`."""
+    for key in ("condition", "weatherCondition"):
+        value = part.get(key)
+        if isinstance(value, dict):
+            return value
+    return {}
+
+
 def daily_from_qweather(block: dict, location: dict | None = None) -> list[dict]:
     location = location or {}
     out = []
@@ -384,8 +393,8 @@ def daily_from_qweather(block: dict, location: dict | None = None) -> list[dict]
             continue
         daytime = row.get("daytime") if isinstance(row.get("daytime"), dict) else {}
         nighttime = row.get("nighttime") if isinstance(row.get("nighttime"), dict) else {}
-        day_condition = daytime.get("weatherCondition") if isinstance(daytime.get("weatherCondition"), dict) else {}
-        night_condition = nighttime.get("weatherCondition") if isinstance(nighttime.get("weatherCondition"), dict) else {}
+        day_condition = _qw_condition(daytime)
+        night_condition = _qw_condition(nighttime)
         wind = daytime.get("wind") if isinstance(daytime.get("wind"), dict) else {}
         direction = wind.get("direction") if isinstance(wind.get("direction"), dict) else {}
         speed = wind.get("speed") if isinstance(wind.get("speed"), dict) else {}
@@ -396,7 +405,13 @@ def daily_from_qweather(block: dict, location: dict | None = None) -> list[dict]
             humidity = to_num(round(humidity * 100, 1))
         else:
             humidity = None
-        uv = row.get("uvIndexMax") if isinstance(row.get("uvIndexMax"), dict) else {}
+        uv_raw = row.get("uvIndexMax")
+        uv_value = uv_raw.get("value") if isinstance(uv_raw, dict) else uv_raw
+        precip = daytime.get("precipitation") if isinstance(daytime.get("precipitation"), dict) else {}
+        precip_amount = precip.get("amount") if isinstance(precip.get("amount"), dict) else {}
+        precip_probability = to_num(precip.get("probability"))
+        if precip_probability is not None and 0 <= precip_probability <= 1:
+            precip_probability = to_num(round(precip_probability * 100, 1))
         out.append({
             "date": d,
             "tempMin": tmin,
@@ -404,9 +419,10 @@ def daily_from_qweather(block: dict, location: dict | None = None) -> list[dict]
             "textDay": _s(day_condition.get("text")),
             "textNight": _s(night_condition.get("text")),
             "wind": wind_text,
-            "precip": None,
+            "precip": to_num(precip_amount.get("value")),
+            "precipProbability": precip_probability,
             "humidity": humidity,
-            "uvIndex": to_num(uv.get("value")),
+            "uvIndex": to_num(uv_value),
         })
     return out
 

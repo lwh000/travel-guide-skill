@@ -5,11 +5,19 @@ description: travel-guide 变更记录，不单独作为技能导入。
 
 # 变更记录
 
-> **2.11.3（2026-10-20）** —— 当前工作版。
+> **2.11.4（2026-11-23）** —— 当前工作版。
 > 版本以 `SKILL.md` frontmatter 为准，修订时按语义版本升级并在下面新增条目。
 > 改完跑 `python scripts/release.py` 复验并重算完整性清单（`--zip` 可顺带打包）。
 > `local-keys.json` 不进普通包；用户明确要求时可用 `--private` 生成含密钥的自用包。
 > 普通文件的完整性校验见根目录 `MANIFEST.sha256`；私用包的密钥成员由发布脚本单独核验。
+
+## 2.11.4 — 2026-11-23
+
+- 修复和风天气 v1 当前 schema 的解析：`daytime.condition` / `nighttime.condition` 与旧的 `weatherCondition` 都支持，`uvIndexMax` 同时接受数字和 `{value}`；补齐 `precipitation.amount.value` 与 `precipitation.probability`。天气卡现在能显示“晴 / 多云”等天气现象，不再输出空 `<span></span>`。
+- `selftest_live_data.py` 增加当前 schema 回归用例，旧的 `weatherCondition` 用例保留做兼容测试，避免 fixture 与真实 API 再次脱节。
+- `validate_html.py` 增加重复 `section id` 检查；补对应 selftest 与 eval 案例 73–74。
+- 修 `planning.md` 重复的「锁定项」小节，统一图片搜索上限为“最多 1 次”，`live_data.py` UA 版本与 skill 版本对齐，`check_skill.py` 不传目录时默认检查脚本上级 skill 根目录。
+- 重排 `eval.md` 案例顺序；清理工作区生成物（`$null`、`__pycache__`、`.playwright-cli`），发布白名单与密钥门禁保持不变。
 
 ## 2.11.3 — 2026-10-20
 

@@ -503,6 +503,9 @@ def check_sources(visible: str, rep: "Report") -> None:
 
 
 def check_markup_attributes(visible: str, rep: "Report") -> None:
+    dup_sections = find_duplicates(SECTION_RE.findall(visible))
+    if dup_sections:
+        rep.fail("页面里有重复的 section id：" + ", ".join(map(str, dup_sections)))
     parsed = parse_markup(visible)
     for tag, attrs in parsed.tags:
         if tag == "a":
